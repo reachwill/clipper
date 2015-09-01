@@ -1,0 +1,30 @@
+@import url(reset.css);
+body {
+    font-family: arial, helvetica, sans-serif;
+    font-size: 14px;
+}
+.thumbnail {
+    float: left;
+    margin-right: 10px;
+    width: 75px;
+}
+.searchResult {
+    clear: left;
+    margin: 15px;
+    max-width: 250px;
+}
+.title {
+    font-weight: bold;
+    font-size: .9em;
+}
+.description {
+    font-size: .8em
+}
+.linkBtn {
+    display: block;
+    padding: 5px;
+    font-size: .8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
