@@ -17,7 +17,8 @@
 
         <!--START Local file browse interface-->
         <div id="localFileSearch" class="panel">
-            <input type="file" accept="video/*" id="localSearchInput" />
+            <input type="file" accept="video/mp4,video/x-m4v,video/*" id="localSearchInput" />
+            <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
         </div>
         <!--END Local file browse interface-->
 
@@ -38,6 +39,7 @@
             <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
                 <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
             </video>
+            <!--            <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>-->
         </div>
         <!--END video preview interface-->
 
@@ -67,11 +69,27 @@
             //when user has browsed to a file on local system
             $('#localSearchInput').change(function() {
                 ClipperPlayer.play('local', $(this));
+                var file = $(this).context.files[0];
+                console.log(file)
+                var fileURL = URL.createObjectURL(file);
+                var link = $(this).parent().find('.addToProjectLnk');
+                link.attr('data-title', file.name);
+                link.attr('data-description', 'Local');
+                link.attr('data-thumbnail', 'Default');
+                link.attr('url', fileURL);
+
             });
 
-            //when user click preview link in a search result
+            //when user clicks preview link in a search result
             $('#searchResults').on('click', '.previewLnk', function() {
-                ClipperPlayer.play('youtube', $(this).data('videoid'));
+                //ClipperPlayer.play('youtube', $(this).data('videoid'));
+                ClipperPlayer.play('youtube', $(this));
+            });
+
+            //when user clicks add to project link anywhere in interface
+
+            $('#searchResults,#previewPane').on('click', '.addToProjectLnk', function() {
+                console.log($(this).context.dataset);
             });
         });
 
@@ -87,8 +105,8 @@
                 <img src="{{thumbnail}}" class="thumbnail">
                 <p class="title">{{title}}</p>
                 <p class="description">{{description}}</p>
-                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}">Add to Project</a>
-                <a class="previewLnk linkBtn" href="#" data-videoId="{{videoId}}">Preview</a>
+                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Add to Project</a>
+                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
             </li>
             {{/items}}
         </ul>

@@ -2,6 +2,11 @@ var YOUTUBE_URL = 'https://www.youtube.com/watch?v=';
 var ClipperPlayer = {
 
     previewPlayer: null,
+    currentVideo: null,
+
+    getCurrentVideo: function () {
+        return ClipperPlayer.currentVideo;
+    },
 
 
     play: function (sourceType, source) {
@@ -14,8 +19,7 @@ var ClipperPlayer = {
                 sourceObj = ClipperPlayer.prepareYoutube(source);
                 break;
         }
-
-        console.log(sourceObj)
+        ClipperPlayer.currentVideo = sourceObj;
         ClipperPlayer.previewPlayer.src({
             "type": sourceObj.type,
             "src": sourceObj.videoURL
@@ -37,7 +41,10 @@ var ClipperPlayer = {
             videoURL: fileURL,
             lastModified: file.lastModifiedDate,
             name: file.name,
-            type: file.type
+            type: file.type,
+            thumbnail: null,
+            description: null,
+            title: file.name
 
         };
     },
@@ -45,14 +52,20 @@ var ClipperPlayer = {
     //returns object prepared for a youtube sourced video
     prepareYoutube: function (source) {
 
-        var file = YOUTUBE_URL + source;
+        var formattedURL = YOUTUBE_URL + source.context.dataset.videoid;
+        var title = source.context.dataset.title;
+        var description = source.context.dataset.description;
+        var thumbnail = source.context.dataset.thumbnail;
 
         return {
             sourceType: 'youtube',
-            videoURL: YOUTUBE_URL + source,
+            videoURL: formattedURL,
             lastModified: null,
-            name: null,
-            type: 'video/youtube'
+            name: title,
+            type: 'video/youtube',
+            thumbnail: thumbnail,
+            description: description,
+            title: title
 
         };
     }

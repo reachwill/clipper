@@ -32,6 +32,7 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
+    margin: 7px 0;
 }
 #youtubeSearch {
     height: 400px;
