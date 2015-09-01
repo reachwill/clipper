@@ -3,6 +3,11 @@ body {
     font-family: arial, helvetica, sans-serif;
     font-size: 14px;
 }
+#wrapper {
+    max-width: 1080px;
+    margin: auto;
+    position: relative;
+}
 .thumbnail {
     float: left;
     margin-right: 10px;
@@ -27,4 +32,25 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     text-align: center;
+}
+#youtubeSearch {
+    height: 400px;
+    overflow: auto;
+    width: 300px;
+}
+#previewPane {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    max-width: 500px;
+}
+#localFileSearch {
+    width: 300px;
+}
+.panel {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
 }

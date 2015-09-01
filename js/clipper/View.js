@@ -14,7 +14,8 @@ var View = {
         //pass results off to be prepared by relevant utility based on collection type
         switch (type) {
             case 'youtube':
-                preparedResults = YoutubeSearchRenderer.getPropsArray(results); // js/clipper/renderers/YoutubeSearchRenderer.js
+                preparedResults = YoutubeSearchRenderer.getPropsArray(results);
+                break; // js/clipper/renderers/YoutubeSearchRenderer.js
         }
 
         // render results using Handlebars templating API

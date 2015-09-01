@@ -2,7 +2,7 @@ var YoutubeSearch = {
     handleAPILoaded: function () {
         //register the api key ready for search requests
         gapi.client.setApiKey('AIzaSyBbeuQDIFpMxnDNxPWhXOEVMpaBzgyMBjY');
-        View.enableElement('searchBtn');
+        View.enableElement('youtubeSearchBtn');
     },
     makeRequest: function () {
         var q = $('#query').val();

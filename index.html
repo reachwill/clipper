@@ -3,17 +3,98 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Untitled Document</title>
+    <title>clippertube.com - home page - dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="http://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+    <script src="js/vendors/video-js/videojs-youtube-master/src/youtube.js"></script>
 </head>
 
 <body>
 
-    <h1>Test Config</h1>
+    <!--    START wrapper-->
+    <div id="wrapper">
 
-    <p>Test para</p>
+        <!--START Local file browse interface-->
+        <div id="localFileSearch" class="panel">
+            <input type="file" accept="video/*" id="localSearchInput" />
+        </div>
+        <!--END Local file browse interface-->
 
-    <p></p>
-gfrgrfgr
+        <!--START Youtube search interface-->
+        <div id="youtubeSearch" class="panel">
+            <div id="buttons">
+                <label>
+                    <input id="query" value='cats' type="text" />
+                    <button id="youtubeSearchBtn" disabled>Search</button>
+                </label>
+            </div>
+            <div id="searchResults"></div>
+        </div>
+        <!--END Youtube search interface-->
+
+        <!--START video preview interface-->
+        <div id="previewPane" class="panel">
+            <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
+                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+            </video>
+        </div>
+        <!--END video preview interface-->
+
+    </div>
+    <!-- END wrapper-->
+
+
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="js/clipper/View.js"></script>
+    <script src="js/clipper/renderers/YoutubeSearchRenderer.js"></script>
+    <script src="js/vendors/youtube/youtube-search.js"></script>
+    <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+    <script src="js/vendors/handlebars-v3.0.3.js"></script>
+    <script src="js/clipper/players/ClipperPlayer.js"></script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            //set up user initiated event handlers for all view elements
+
+            //when user clicks to peform a youtube search request
+            $('#youtubeSearchBtn').click(function() {
+                YoutubeSearch.makeRequest();
+            });
+
+            //when user has browsed to a file on local system
+            $('#localSearchInput').change(function() {
+                ClipperPlayer.play('local', $(this));
+            });
+
+            //when user click preview link in a search result
+            $('#searchResults').on('click', '.previewLnk', function() {
+                ClipperPlayer.play('youtube', $(this).data('videoid'));
+            });
+        });
+
+    </script>
+
+
+
+    <!--START Handlebars templates-->
+    <script id="searchResultsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li class="searchResult">
+                <img src="{{thumbnail}}" class="thumbnail">
+                <p class="title">{{title}}</p>
+                <p class="description">{{description}}</p>
+                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}">Add to Project</a>
+                <a class="previewLnk linkBtn" href="#" data-videoId="{{videoId}}">Preview</a>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
+    <!--END Handlebars templates-->
+
 
 
 </body>
