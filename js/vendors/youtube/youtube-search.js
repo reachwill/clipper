@@ -21,6 +21,7 @@ var YoutubeSearch = {
 function googleApiClientReady() {
     //ready for any intialisation required when youtube data API is loaded into browser
     gapi.client.load('youtube', 'v3', function () {
+        //call method to register credentials
         YoutubeSearch.handleAPILoaded();
     });
 }
