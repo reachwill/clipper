@@ -23,5 +23,40 @@ var View = {
         var template = Handlebars.compile(source); //compile the template structure
         var output = template(preparedResults); //generate the actual HTML to be displayed
         $("#searchResults").html(output); //display the HTML
+    },
+    //called when a local file has been selected enabling the button and updating the data attributes
+    enableAddToProjectLink: function (fileObj) {
+        var file = fileObj.context.files[0];
+        var fileURL = URL.createObjectURL(file);
+        var link = fileObj.parent().find('.addToProjectLnk');
+        link.attr('data-title', file.name);
+        link.attr('data-description', 'Local');
+        link.attr('data-thumbnail', 'Default');
+        link.attr('url', fileURL);
+    },
+    //called when resource is added to a project's resource list
+    updateResourceList: function () {
+
+        var arrayToRender = {
+            items: []
+        };
+
+        var numItems = ProjectManager.activeProject.resources.length;
+        for (var i = 0; i < numItems; i++) {
+            var item = ProjectManager.activeProject.resources[i];
+            arrayToRender.items.push({
+                title: item.title,
+                videoId: item.videoId,
+                description: item.description,
+                thumbnail: item.thumbnail
+            });
+        }
+        // render results using Handlebars templating API
+        var source = document.getElementById("projectResourcesTemplate").innerHTML; //the template structure to be used by handlebars <script id="projectResourcesTemplate"...
+
+        var template = Handlebars.compile(source); //compile the template structure
+        var output = template(arrayToRender); //generate the actual HTML to be displayed
+
+        $("#projectResourcesPanel").html(output); //display the HTML
     }
 }

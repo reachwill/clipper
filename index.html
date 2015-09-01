@@ -34,6 +34,13 @@
         </div>
         <!--END Youtube search interface-->
 
+
+        <!--START project resources-->
+        <div id="projectResourcesPanel"></div>
+        <!--END project resources-->
+
+
+
         <!--START video preview interface-->
         <div id="previewPane" class="panel">
             <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
@@ -42,6 +49,15 @@
             <!--            <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>-->
         </div>
         <!--END video preview interface-->
+
+
+
+
+
+
+
+
+
 
     </div>
     <!-- END wrapper-->
@@ -54,6 +70,7 @@
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
     <script src="js/vendors/handlebars-v3.0.3.js"></script>
     <script src="js/clipper/players/ClipperPlayer.js"></script>
+    <script src="js/clipper/managers/ProjectManager.js"></script>
 
 
 
@@ -69,14 +86,8 @@
             //when user has browsed to a file on local system
             $('#localSearchInput').change(function() {
                 ClipperPlayer.play('local', $(this));
-                var file = $(this).context.files[0];
-                console.log(file)
-                var fileURL = URL.createObjectURL(file);
-                var link = $(this).parent().find('.addToProjectLnk');
-                link.attr('data-title', file.name);
-                link.attr('data-description', 'Local');
-                link.attr('data-thumbnail', 'Default');
-                link.attr('url', fileURL);
+                View.enableAddToProjectLink($(this));
+
 
             });
 
@@ -87,9 +98,9 @@
             });
 
             //when user clicks add to project link anywhere in interface
-
-            $('#searchResults,#previewPane').on('click', '.addToProjectLnk', function() {
-                console.log($(this).context.dataset);
+            $('#searchResults,#localFileSearch').on('click', '.addToProjectLnk', function() {
+                //add the video to the project resources
+                ProjectManager.updateProjectProp('resources', $(this).context.dataset);
             });
         });
 
@@ -98,6 +109,8 @@
 
 
     <!--START Handlebars templates-->
+
+    <!--youtube search result template-->
     <script id="searchResultsTemplate" type="text/x-handlebars-template">
         <ul>
             {{#items}}
@@ -107,6 +120,23 @@
                 <p class="description">{{description}}</p>
                 <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Add to Project</a>
                 <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
+
+    <!--project resource list template-->
+    <script id="projectResourcesTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li class="resource">
+                <img src="{{thumbnail}}" class="thumbnail">
+                <p class="title">{{title}}</p>
+                <p class="description">{{description}}</p>
+                <!--
+                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Add to Project</a>
+<a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
+-->
             </li>
             {{/items}}
         </ul>
