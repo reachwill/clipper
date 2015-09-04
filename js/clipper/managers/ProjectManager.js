@@ -37,13 +37,22 @@ ProjectManager = {
             self.activeProject[prop] = value;
         }
         switch (prop) {
-            case 'resources':
-                View.updateResourceList();
-                break;
+        case 'resources':
+            View.updateResourceList();
+            break;
+        }
+    },
+    controller: {
+        changeView: function (view, clicked) {
+            $('#projectPage>header nav a').parent().removeClass('active');
+            clicked.parent().addClass('active');
+            $('#projectPage>section').hide();
+            $('#' + view).fadeIn(500);
         }
     }
 
 }
 
-ProjectManager.setActiveProject()
-    //ProjectManager.updateProjectProp('resources', ['yehah']);
+ProjectManager.setActiveProject();
+ProjectManager.controller.changeView('collectionsSection');
+//ProjectManager.updateProjectProp('resources', ['yehah']);

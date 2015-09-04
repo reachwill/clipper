@@ -6,8 +6,13 @@
     <title>clippertube.com - home page - dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="http://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
-    <script src="http://vjs.zencdn.net/4.12/video.js"></script>
+    <script src="js/vendors/video-js/video.min.js"></script>
     <script src="js/vendors/video-js/videojs-youtube-master/src/youtube.js"></script>
+
+    <script src="js/vendors/video-js/plugins/rangeslider-videojs-master/src/rangeslider.js"></script>
+    <link rel="stylesheet" href="js/vendors/video-js/plugins/rangeslider-videojs-master/src/rangeslider.min.css">
+
+
 </head>
 
 <body>
@@ -15,49 +20,200 @@
     <!--    START wrapper-->
     <div id="wrapper">
 
-        <!--START Local file browse interface-->
-        <div id="localFileSearch" class="panel">
-            <input type="file" accept="video/mp4,video/x-m4v,video/*" id="localSearchInput" />
-            <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
-        </div>
-        <!--END Local file browse interface-->
+        <header>
+            <h1>clippertube.com</h1>
+            <nav>
+                <ul>
+                    <li><a href="#" class="projectDashboardLnk">Project Dashboard</a></li>
+                    <li><a href="#">Sign In</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
 
-        <!--START Youtube search interface-->
-        <div id="youtubeSearch" class="panel">
-            <div id="buttons">
-                <label>
-                    <input id="query" value='cats' type="text" />
-                    <button id="youtubeSearchBtn" disabled>Search</button>
-                </label>
+        <!--START Dashboard Page-->
+        <section id="dashboardPage" class="page">
+            <!--START New Project Pane-->
+            <div id="newProjectPane" class="panel">
+                <input type="text" id="newProjectTitle" placeholder="Untitled Project">
+                <button id="createProjectBtn">Create New Project</button>
             </div>
-            <div id="searchResults"></div>
-        </div>
-        <!--END Youtube search interface-->
+            <!--END New Project Pane-->
+
+            <!--START Existing Projects Pane-->
+            <div id="existingProjectsPane" class="panel">
+                <div class="projectTile azureTile" data-projectId="1349308800000">
+                    <h2>Project Title</h2>
+                    <div class="projectInfo">
+                        <p class="projectDesc multiline-ellipsis">
+                            As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.
+                        </p>
+                        <ul>
+                            <li><strong>Cliplists: 1</strong></li>
+                            <li><strong>Clips: 14</strong></li>
+                        </ul>
+                        <a class="openProjectLnk linkBtn" href="#" data-projectid="1349308800000">Open Project</a>
+                        <a class=" deleteProjectLnk linkBtn " href="# " data-projectid="1349308800000">Delete Project</a>
+                    </div>
+                </div>
+
+            </div>
+            <!--END Existing Projects Pane-->
+
+        </section>
+        <!--END Project Page-->
 
 
-        <!--START project resources-->
-        <div id="projectResourcesPanel"></div>
-        <!--END project resources-->
+        <!--START Project Page-->
+        <section id="projectPage" class="page">
+
+            <!--START Project Page Header-->
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="#" data-view="collectionsSection">Collections</a></li>
+                        <li><a href="#" data-view="projectResourcesSection">Project Resources</a></li>
+                        <li><a href="#" data-view="clipsSection">Saved Clips</a></li>
+                        <li><a href="#" data-view="cliplistsSection">Saved Cliplists</a></li>
+                    </ul>
+                </nav>
+            </header>
+            <!--END Project Page Header-->
+
+
+            <!--START Collections Section-->
+
+            <section id="collectionsSection">
+
+                <!--START Local file browse interface-->
+                <div id="localFileSearch" class="panel">
+                    <input type="file" accept="video/mp4,video/x-m4v,video/*" id="localSearchInput" />
+                    <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
+                </div>
+                <!--END Local file browse interface-->
+
+                <!--START Youtube search interface-->
+                <div id="youtubeSearch" class="panel">
+                    <div id="buttons">
+                        <label>
+                            <input id="query" value='cats' type="text" />
+                            <button id="youtubeSearchBtn" disabled>Search</button>
+                        </label>
+                    </div>
+                    <div id="searchResults"></div>
+                </div>
+                <!--END Youtube search interface-->
+            </section>
+            <!--END Collections Section-->
+
+            <!--START Project Resources Section-->
+            <section id="projectResourcesSection">
+
+                <!--START project resources pane-->
+                <div id="projectResourcesPanel" class="panel">
+
+                </div>
+                <!--END project resources pane-->
+            </section>
+            <!--END Project Resources Section-->
+
+
+            <!--START Clips Section-->
+            <section id="clipsSection">
+
+                <div id="clipsPane" class="panel">
+                </div>
+
+            </section>
+            <!--END Clips Section-->
+
+
+            <!--START Cliplists Section-->
+            <section id="cliplistsSection">
+
+                <div id="cliplistsPane" class="panel">
+                </div>
+
+            </section>
+            <!--END Cliplists Section-->
 
 
 
-        <!--START video preview interface-->
-        <div id="previewPane" class="panel">
-            <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
-                <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-            </video>
-            <!--            <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>-->
-        </div>
-        <!--END video preview interface-->
 
+            <!--START video preview interface-->
+            <div id="previewPane" class="panel">
+                <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
+                    <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+                    <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+                    <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+                    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                </video>
+                <script>
+                    //instantiation of vidoejs rangeslider plugin
+                    var options = {
+                            hidden: false
+                        },
+                        mplayer = videojs("previewer");
+                    mplayer.rangeslider(options);
 
+                    function playBetween() {
+                        var start, end;
+                        start = document.getElementById('Start').value;
+                        end = document.getElementById('End').value;
+                        mplayer.playBetween(start, end);
+                    }
 
+                    function loopBetween() {
+                        var start = document.getElementById('Start').value;
+                        var end = document.getElementById('End').value;
+                        mplayer.loopBetween(start, end);
+                    }
 
+                    function getValues() {
+                        var values = mplayer.getValueSlider();
+                        console.log(values);
+                        document.getElementById('Start').value = videojs.round(values.start, 2);
+                        document.getElementById('End').value = videojs.round(values.end, 2);
+                    }
 
+                    function showhide() {
+                        console.log(mplayer)
+                        var plugin = mplayer.rangeslider.options;
+                        if (plugin.hidden)
+                            mplayer.showSlider();
+                        else
+                            mplayer.hideSlider();
+                    }
 
+                    function lockunlock() {
+                        var plugin = mplayer.rangeslider.options;
+                        if (plugin.locked)
+                            mplayer.unlockSlider();
+                        else
+                            mplayer.lockSlider();
+                    }
 
+                    function showhidePanel() {
+                        var plugin = mplayer.rangeslider.options;
+                        if (!plugin.panel)
+                            mplayer.showSliderPanel();
+                        else
+                            mplayer.hideSliderPanel();
+                    }
 
+                    function showhideControlTime() {
+                        var plugin = mplayer.rangeslider.options;
+                        if (!plugin.controlTime)
+                            mplayer.showControlTime();
+                        else
+                            mplayer.hideControlTime();
+                    }
+                </script>
+            </div>
+            <!--END video preview interface-->
 
+        </section>
+        <!--END Project Page-->
 
     </div>
     <!-- END wrapper-->
@@ -71,39 +227,53 @@
     <script src="js/vendors/handlebars-v3.0.3.js"></script>
     <script src="js/clipper/players/ClipperPlayer.js"></script>
     <script src="js/clipper/managers/ProjectManager.js"></script>
+    <script src="js/clipper/pageNav/pageNav.js"></script>
+
+
+
+
 
 
 
     <script>
-        $(document).ready(function() {
+        //        var options ={hidden:false},
+        //			mplayer=videojs("previewer");
+        //			mplayer.rangeslider(options);
+
+
+        $(document).ready(function () {
             //set up user initiated event handlers for all view elements
 
             //when user clicks to peform a youtube search request
-            $('#youtubeSearchBtn').click(function() {
+            $('#youtubeSearchBtn').click(function () {
                 YoutubeSearch.makeRequest();
             });
 
             //when user has browsed to a file on local system
-            $('#localSearchInput').change(function() {
+            $('#localSearchInput').change(function () {
                 ClipperPlayer.play('local', $(this));
                 View.enableAddToProjectLink($(this));
-
-
             });
 
             //when user clicks preview link in a search result
-            $('#searchResults').on('click', '.previewLnk', function() {
+            $('#searchResults').on('click', '.previewLnk', function () {
                 //ClipperPlayer.play('youtube', $(this).data('videoid'));
                 ClipperPlayer.play('youtube', $(this));
             });
 
             //when user clicks add to project link anywhere in interface
-            $('#searchResults,#localFileSearch').on('click', '.addToProjectLnk', function() {
+            $('#searchResults,#localFileSearch').on('click', '.addToProjectLnk', function () {
                 //add the video to the project resources
                 ProjectManager.updateProjectProp('resources', $(this).context.dataset);
+                $(this).text('Added to Project Resources');
+            });
+
+            //when user clicks a section link in Project Page
+            $('#projectPage>header nav a').click(function () {
+                //ClipperPlayer.play('youtube', $(this).data('videoid'));
+                ProjectManager.controller.changeView($(this).data('view'), $(this));
             });
         });
-
     </script>
 
 

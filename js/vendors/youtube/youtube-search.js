@@ -9,7 +9,7 @@ var YoutubeSearch = {
         var request = gapi.client.youtube.search.list({
             q: q,
             part: 'snippet',
-            maxResults: 10
+            maxResults: 50
         });
         request.execute(function (response) {
             View.renderSearchResults(response.result, 'youtube');

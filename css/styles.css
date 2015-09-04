@@ -1,31 +1,198 @@
 @import url(reset.css);
+@import url(https://fonts.googleapis.com/css?family=Play);
 body {
     font-family: arial, helvetica, sans-serif;
     font-size: 14px;
 }
+
+
+/************ Layout Containers *******************************/
+
 #wrapper {
+    width: 100%;
     max-width: 1080px;
     margin: auto;
-    position: relative;
 }
+
+#wrapper>header {
+    width: 100%;
+    max-width: 1065px;
+    position: relative;
+    z-index: 1000;
+    background-color: #0088B2;
+    height: 45px;
+    padding: 15px 0 15px 15px;
+    margin: 10px 0;
+}
+
+#wrapper>header h1 {
+    font-family: 'Play', sans-serif;
+    color: white;
+    font-size: 3em;
+}
+
+#wrapper>section {
+    position: relative;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+section.page {
+    top: 10px;
+}
+
+
+/************ Main Header Styles *******************************/
+
+#wrapper>header nav {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+#wrapper>header nav li {
+    display: inline;
+}
+
+#wrapper>header nav li a {
+    display: inline-block;
+    padding: 5px;
+    text-align: center;
+    background-color: azure;
+    border-radius: 5px;
+    text-decoration: none;
+    color: black;
+}
+
+
+/************ Project Dashboard Page Styles *******************************/
+
+.projectTile {
+    width: 200px;
+    height: 200px;
+    border: 3px solid #efefef;
+    padding: 7px;
+}
+
+.projectTile h2 {
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.projectDesc {
+    margin: 10px 0;
+}
+
+.projectInfo ul li {
+    text-align: right;
+    margin: 7px 0;
+}
+
+.projectInfo ul {
+    margin: 15px 0;
+}
+
+.orangeTile {
+    background: rgba(255, 140, 25, .4);
+}
+
+.azureTile {
+    background: rgba(152, 231, 255, .4);
+    border-color: cornflowerblue;
+}
+
+.openProjectLnk {
+    background-color: #C1FF8C;
+}
+
+.deleteProjectLnk {
+    background-color: #FF5A59;
+}
+
+
+/************ Project Page Styles *******************************/
+
+#projectPage>header {
+    width: 98%;
+    max-width: 1025px;
+    background-color: #0088B2;
+    padding: 15px 0 15px 15px;
+}
+
+#projectPage>header nav li {
+    display: inline-block;
+    width: 24%;
+    text-align: center;
+}
+
+#projectPage>header nav li a {
+    display: inline-block;
+    width: 96%;
+    padding: 5px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.active {
+    background-color: orange;
+}
+
+#previewPane {
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    width: 50%;
+    max-width: 500px;
+}
+
+#projectPage>section {
+    margin: 15px 0;
+}
+
+#projectPage .panel {
+    width: 40%;
+}
+
+
+/************GENERAL UTILITY STYLES****************************************/
+
+.multiline-ellipsis {
+    display: block;
+    display: -webkit-box;
+    max-width: 100%;
+    height: 43px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .thumbnail {
     float: left;
     margin-right: 10px;
     width: 75px;
 }
+
 .searchResult,
 .resource {
     clear: left;
     margin: 15px;
     max-width: 250px;
 }
+
 .title {
     font-weight: bold;
     font-size: .9em;
 }
+
 .description {
     font-size: .8em
 }
+
 .linkBtn {
     display: block;
     padding: 5px;
@@ -34,28 +201,29 @@ body {
     border-radius: 5px;
     text-align: center;
     margin: 7px 0;
+    text-decoration: none;
+    color: black;
 }
+
 #youtubeSearch {
     height: 400px;
     overflow: auto;
     width: 300px;
 }
-#previewPane {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 50%;
-    max-width: 500px;
-}
+
 #localFileSearch {
     width: 300px;
 }
+
 .panel {
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
     margin: 10px;
 }
+
+
+/*
 #projectResourcesPanel {
     float: left;
-}
+}*/

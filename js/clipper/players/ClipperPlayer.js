@@ -24,7 +24,7 @@ var ClipperPlayer = {
             "type": sourceObj.type,
             "src": sourceObj.videoURL
         });
-        ClipperPlayer.previewPlayer.play()
+        ClipperPlayer.previewPlayer.play();
 
     },
 
@@ -74,7 +74,7 @@ var ClipperPlayer = {
 
 //instantiation of videojs player instance for previewing videos before adding to projects
 videojs("previewer", {
-    "techOrder": ["youtube", "html5"],
+    "techOrder": ["html5", "youtube"],
     "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ"
 }).ready(function () {
     ClipperPlayer.previewPlayer = this;
