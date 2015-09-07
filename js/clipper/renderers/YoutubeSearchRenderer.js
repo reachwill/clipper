@@ -13,7 +13,8 @@ var YoutubeSearchRenderer = {
                 title: item.snippet.title,
                 videoId: item.id.videoId,
                 description: item.snippet.description,
-                thumbnail: item.snippet.thumbnails.default.url
+                thumbnail: item.snippet.thumbnails.default.url,
+                sourcetype: 'youtube'
             });
         }
         return arrayToRender;

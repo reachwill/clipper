@@ -27,5 +27,8 @@ var PageNavigator = {
         var projectId = (linkClicked.data('projectid'))
         $('section.page').hide();
         $('#' + pageTitle).fadeIn(500);
+        if (pageTitle == 'projectPage') {
+            $('#projectTitle').text(ProjectManager.activeProject.projectTitle);
+        }
     }
 }

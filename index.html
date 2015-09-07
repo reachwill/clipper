@@ -6,6 +6,7 @@
     <title>clippertube.com - home page - dashboard</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href="http://vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/vendors/jquery-ui-1.11.4.custom/jquery-ui.min.css">
     <script src="js/vendors/video-js/video.min.js"></script>
     <script src="js/vendors/video-js/videojs-youtube-master/src/youtube.js"></script>
 
@@ -55,12 +56,13 @@
 
             <!--START Project Page Header-->
             <header>
+                <h1 id="projectTitle"></h1>
                 <nav>
                     <ul>
                         <li><a href="#" data-view="collectionsSection">Collections</a></li>
                         <li><a href="#" data-view="projectResourcesSection">Project Resources</a></li>
-                        <li><a href="#" data-view="clipsSection">Saved Clips</a></li>
-                        <li><a href="#" data-view="cliplistsSection">Saved Cliplists</a></li>
+                        <li><a href="#" data-view="cliplistsSection">Project Cliplists</a></li>
+                        <li><a href="#" data-view="clipsSection">Project Clips</a></li>
                     </ul>
                 </nav>
             </header>
@@ -73,16 +75,27 @@
 
                 <!--START Local file browse interface-->
                 <div id="localFileSearch" class="panel">
-                    <input type="file" accept="video/mp4,video/x-m4v,video/*" id="localSearchInput" />
+                    <input type="file" accept="video/mp4,video/x-m4v,video/*,audio/mp3" id="localSearchInput" />
                     <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
                 </div>
                 <!--END Local file browse interface-->
+
+
+                <!--START Wellcome Foundation browse interface-->
+                <div id="wellcomeFileSearch" class="panel">
+                    <ul>
+                        <li><a href="#" class="wellcomeLink" data-videourl="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-name="Dying for a smoke">Video 1</a></li>
+                    </ul>
+                </div>
+                <!--END Local file browse interface-->
+
+
 
                 <!--START Youtube search interface-->
                 <div id="youtubeSearch" class="panel">
                     <div id="buttons">
                         <label>
-                            <input id="query" value='cats' type="text" />
+                            <input id="query" value='ferraris' type="text" />
                             <button id="youtubeSearchBtn" disabled>Search</button>
                         </label>
                     </div>
@@ -128,73 +141,52 @@
 
             <!--START video preview interface-->
             <div id="previewPane" class="panel">
-                <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
-                    <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
-                    <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
-                    <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
-                    <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
-                </video>
-                <script>
-                    //instantiation of vidoejs rangeslider plugin
-                    var options = {
-                            hidden: false
-                        },
-                        mplayer = videojs("previewer");
-                    mplayer.rangeslider(options);
 
-                    function playBetween() {
-                        var start, end;
-                        start = document.getElementById('Start').value;
-                        end = document.getElementById('End').value;
-                        mplayer.playBetween(start, end);
-                    }
+                <!--START html5 videojs player-->
+                <div id="html5Player">
+                    <video id="previewer" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
+                        <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+                        <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+                        <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                    </video>
+                    <script>
+                        //instantiation of vidoejs rangeslider plugin for videojs html5 player
+                        var options = {
+                                hidden: false
+                            },
+                            mplayer = videojs("previewer");
+                        mplayer.rangeslider(options);
+                    </script>
+                </div>
+                <!--END html5 videojs player-->
 
-                    function loopBetween() {
-                        var start = document.getElementById('Start').value;
-                        var end = document.getElementById('End').value;
-                        mplayer.loopBetween(start, end);
-                    }
 
-                    function getValues() {
-                        var values = mplayer.getValueSlider();
-                        console.log(values);
-                        document.getElementById('Start').value = videojs.round(values.start, 2);
-                        document.getElementById('End').value = videojs.round(values.end, 2);
-                    }
+                <!--START youtube videojs player-->
+                <div id="youtubePlayer" style="display:none;">
+                    <video id="previewer-youtube" class="video-js vjs-default-skin" controls preload="auto" width="100%" height="400" poster="http://video-js.zencoder.com/oceans-clip.png">
+                        <source src="http://video-js.zencoder.com/oceans-clip.mp4" type='video/mp4' />
+                        <source src="http://video-js.zencoder.com/oceans-clip.webm" type='video/webm' />
+                        <source src="http://video-js.zencoder.com/oceans-clip.ogv" type='video/ogg' />
+                        <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+                    </video>
+                    <script>
+                        //instantiation of vidoejs rangeslider plugin
+                        var options = {
+                                hidden: false
+                            },
+                            mplayer2 = videojs("previewer-youtube");
+                        mplayer2.rangeslider(options);
+                    </script>
+                </div>
+                <!--END youtube videojs player-->
 
-                    function showhide() {
-                        console.log(mplayer)
-                        var plugin = mplayer.rangeslider.options;
-                        if (plugin.hidden)
-                            mplayer.showSlider();
-                        else
-                            mplayer.hideSlider();
-                    }
 
-                    function lockunlock() {
-                        var plugin = mplayer.rangeslider.options;
-                        if (plugin.locked)
-                            mplayer.unlockSlider();
-                        else
-                            mplayer.lockSlider();
-                    }
 
-                    function showhidePanel() {
-                        var plugin = mplayer.rangeslider.options;
-                        if (!plugin.panel)
-                            mplayer.showSliderPanel();
-                        else
-                            mplayer.hideSliderPanel();
-                    }
 
-                    function showhideControlTime() {
-                        var plugin = mplayer.rangeslider.options;
-                        if (!plugin.controlTime)
-                            mplayer.showControlTime();
-                        else
-                            mplayer.hideControlTime();
-                    }
-                </script>
+                <div id="clipEditorControls">
+                    <a class="linkBtn" id="createClipLnk" href="#">Create Clip</a>
+                </div>
             </div>
             <!--END video preview interface-->
 
@@ -206,6 +198,7 @@
 
 
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="js/vendors/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script src="js/clipper/View.js"></script>
     <script src="js/clipper/renderers/YoutubeSearchRenderer.js"></script>
     <script src="js/vendors/youtube/youtube-search.js"></script>
@@ -222,7 +215,7 @@
     <!--START Handlebars templates-->
 
     <!--project thumbnail template-->
-    <script id="exisitngProjectsTemplate" type="text/x-handlebars-template">
+    <script id="existingProjectsTemplate" type="text/x-handlebars-template">
         <ul>
             {{#items}}
             <li>
@@ -254,8 +247,8 @@
                 <img src="{{thumbnail}}" class="thumbnail">
                 <p class="title">{{title}}</p>
                 <p class="description">{{description}}</p>
-                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Add to Project</a>
-                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
+                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Add to Project</a>
+                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
             </li>
             {{/items}}
         </ul>
@@ -269,14 +262,44 @@
                 <img src="{{thumbnail}}" class="thumbnail">
                 <p class="title">{{title}}</p>
                 <p class="description">{{description}}</p>
-                <!--
-                <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Add to Project</a>
-<a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
--->
+                <a class=" previewLnk linkBtn " href="# " data-videoid="{{videoid}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
+
             </li>
             {{/items}}
         </ul>
     </script>
+
+
+    <!--project cliplist list template-->
+    <script id="projectCliplistsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li class="cliplist" data-id="{{id}}">
+                <p class="title">{{title}}</p>
+                <p class="description">{{description}}</p>
+                <div class="clipsPane"></div>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
+
+    <!--project cliplist list template-->
+    <script id="cliplistsClipsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li class="clip" data-id="{{id}}">
+                <img src="{{thumbnail}}" class="thumbnail">
+                <p class="title">{{title}}</p>
+                <p class="bounds">Start: {{start}} - End: {{end}}</p>
+                <p class="description">{{description}}</p>
+                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoid}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
+
+
+
     <!--END Handlebars templates-->
 
 

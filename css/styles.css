@@ -22,7 +22,7 @@ body {
     background-color: #0088B2;
     height: 45px;
     padding: 15px 0 15px 15px;
-    margin: 10px 0;
+    margin: 10px 0 0 0;
 }
 
 #wrapper>header h1 {
@@ -114,6 +114,12 @@ section.page {
     margin: 20px;
 }
 
+#projectTitle {
+    font-size: 2em;
+    margin: 7px 0;
+    color: white;
+}
+
 
 /************ Project Page Styles *******************************/
 
@@ -145,7 +151,7 @@ section.page {
 
 #previewPane {
     position: absolute;
-    top: 65px;
+    top: 105px;
     right: 10px;
     width: 50%;
     max-width: 500px;
@@ -157,6 +163,14 @@ section.page {
 
 #projectPage .panel {
     width: 40%;
+}
+
+
+/************ICON STYLES****************************************/
+
+.noThumb {
+    background: url(icons/1441652014_film_clip_movie_timestamp.svg) no-repeat;
+    background-size: contain;
 }
 
 
@@ -179,14 +193,19 @@ section.page {
 .thumbnail {
     float: left;
     margin-right: 10px;
-    width: 75px;
+    width: 45px;
 }
 
 .searchResult,
-.resource {
+.resource,
+.clip {
     clear: left;
     margin: 15px;
     max-width: 250px;
+}
+
+.resource {
+    height: 85px;
 }
 
 .title {

@@ -4,13 +4,13 @@ var DBCommunicator = {
             //get the data from db
 
         //on success change view
-
-        //change to project view -- move this to AJAX success call back
+        //setActiveProject
+        ProjectManager.setActiveProject(projectId)
+            //change to project view -- move this to AJAX success call back
         PageNavigator.changePage('projectPage', $(this));
         //reset sub nav in project page to colections view
         ProjectManager.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));
 
-        //setActiveProject
-        ProjectManager.setActiveProject(projectId)
+
     }
 }
