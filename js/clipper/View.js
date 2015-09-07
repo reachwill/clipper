@@ -13,9 +13,9 @@ var View = {
 
         //pass results off to be prepared by relevant utility based on collection type
         switch (type) {
-            case 'youtube':
-                preparedResults = YoutubeSearchRenderer.getPropsArray(results);
-                break; // js/clipper/renderers/YoutubeSearchRenderer.js
+        case 'youtube':
+            preparedResults = YoutubeSearchRenderer.getPropsArray(results);
+            break; // js/clipper/renderers/YoutubeSearchRenderer.js
         }
 
         // render results using Handlebars templating API
@@ -41,15 +41,17 @@ var View = {
             items: []
         };
 
-        var numItems = ProjectManager.activeProject.resources.length;
-        for (var i = 0; i < numItems; i++) {
-            var item = ProjectManager.activeProject.resources[i];
-            arrayToRender.items.push({
-                title: item.title,
-                videoId: item.videoId,
-                description: item.description,
-                thumbnail: item.thumbnail
-            });
+        if (ProjectManager.activeProject.resources != undefined) {
+            var numItems = ProjectManager.activeProject.resources.length;
+            for (var i = 0; i < numItems; i++) {
+                var item = ProjectManager.activeProject.resources[i];
+                arrayToRender.items.push({
+                    title: item.title,
+                    videoId: item.videoId,
+                    description: item.description,
+                    thumbnail: item.thumbnail
+                });
+            }
         }
         // render results using Handlebars templating API
         var source = document.getElementById("projectResourcesTemplate").innerHTML; //the template structure to be used by handlebars <script id="projectResourcesTemplate"...
@@ -58,5 +60,35 @@ var View = {
         var output = template(arrayToRender); //generate the actual HTML to be displayed
 
         $("#projectResourcesPanel").html(output); //display the HTML
+    },
+
+
+    //called when project is created and also on first load
+    updateExistingProjectsList: function () {
+
+        var arrayToRender = {
+            items: []
+        };
+
+        var numItems = ProjectManager.existingProjects.length;
+        for (var i = 0; i < numItems; i++) {
+            var item = ProjectManager.existingProjects[i];
+            arrayToRender.items.push({
+                projectTitle: item.projectTitle,
+                projectId: item.projectId,
+                projectDesc: item.projectDesc,
+                projectResourceCount: item.projectResourceCount,
+                projectCliplistCount: item.projectCliplistCount,
+                projectClipsCount: item.projectClipsCount
+            });
+        }
+        // render results using Handlebars templating API
+        var source = document.getElementById("exisitngProjectsTemplate").innerHTML; //the template structure to be used by handlebars <script id="projectResourcesTemplate"...
+
+        var template = Handlebars.compile(source); //compile the template structure
+        var output = template(arrayToRender); //generate the actual HTML to be displayed
+
+        $("#existingProjectsPane").html(output); //display the HTML
     }
+
 }

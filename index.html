@@ -35,29 +35,15 @@
         <section id="dashboardPage" class="page">
             <!--START New Project Pane-->
             <div id="newProjectPane" class="panel">
-                <input type="text" id="newProjectTitle" placeholder="Untitled Project">
-                <button id="createProjectBtn">Create New Project</button>
+                <form id="newProjectFrm">
+                    <input type="text" id="newProjectTitle" placeholder="Untitled Project">
+                    <button id="createProjectBtn">Create New Project</button>
+                </form>
             </div>
             <!--END New Project Pane-->
 
             <!--START Existing Projects Pane-->
-            <div id="existingProjectsPane" class="panel">
-                <div class="projectTile azureTile" data-projectId="1349308800000">
-                    <h2>Project Title</h2>
-                    <div class="projectInfo">
-                        <p class="projectDesc multiline-ellipsis">
-                            As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.
-                        </p>
-                        <ul>
-                            <li><strong>Cliplists: 1</strong></li>
-                            <li><strong>Clips: 14</strong></li>
-                        </ul>
-                        <a class="openProjectLnk linkBtn" href="#" data-projectid="1349308800000">Open Project</a>
-                        <a class=" deleteProjectLnk linkBtn " href="# " data-projectid="1349308800000">Delete Project</a>
-                    </div>
-                </div>
-
-            </div>
+            <div id="existingProjectsPane" class="panel"></div>
             <!--END Existing Projects Pane-->
 
         </section>
@@ -228,57 +214,37 @@
     <script src="js/clipper/players/ClipperPlayer.js"></script>
     <script src="js/clipper/managers/ProjectManager.js"></script>
     <script src="js/clipper/pageNav/pageNav.js"></script>
-
-
-
-
-
-
-
-    <script>
-        //        var options ={hidden:false},
-        //			mplayer=videojs("previewer");
-        //			mplayer.rangeslider(options);
-
-
-        $(document).ready(function () {
-            //set up user initiated event handlers for all view elements
-
-            //when user clicks to peform a youtube search request
-            $('#youtubeSearchBtn').click(function () {
-                YoutubeSearch.makeRequest();
-            });
-
-            //when user has browsed to a file on local system
-            $('#localSearchInput').change(function () {
-                ClipperPlayer.play('local', $(this));
-                View.enableAddToProjectLink($(this));
-            });
-
-            //when user clicks preview link in a search result
-            $('#searchResults').on('click', '.previewLnk', function () {
-                //ClipperPlayer.play('youtube', $(this).data('videoid'));
-                ClipperPlayer.play('youtube', $(this));
-            });
-
-            //when user clicks add to project link anywhere in interface
-            $('#searchResults,#localFileSearch').on('click', '.addToProjectLnk', function () {
-                //add the video to the project resources
-                ProjectManager.updateProjectProp('resources', $(this).context.dataset);
-                $(this).text('Added to Project Resources');
-            });
-
-            //when user clicks a section link in Project Page
-            $('#projectPage>header nav a').click(function () {
-                //ClipperPlayer.play('youtube', $(this).data('videoid'));
-                ProjectManager.controller.changeView($(this).data('view'), $(this));
-            });
-        });
-    </script>
+    <script src="js/clipper/communicators/DBCommunicator.js"></script>
+    <script src="js/clipper/Main.js"></script>
 
 
 
     <!--START Handlebars templates-->
+
+    <!--project thumbnail template-->
+    <script id="exisitngProjectsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li>
+                <div class="projectTile azureTile" data-projectId="{{projectId}}">
+                    <h2>{{projectTitle}}</h2>
+                    <div class="projectInfo">
+                        <p class="projectDesc multiline-ellipsis">
+                            {{projectDesc}}
+                        </p>
+                        <ul class="resourceSummaryList">
+                            <li>Resources: {{projectResourceCount}}</li>
+                            <li>Cliplists: {{projectCliplistCount}}</li>
+                            <li>Clips: {{projectClipsCount}}</li>
+                        </ul>
+                        <a class="openProjectLnk linkBtn" href="#" data-projectid="{{projectId}}">Open Project</a>
+                        <a class=" deleteProjectLnk linkBtn " href="# " data-projectid="{{projectId}}">Delete Project</a>
+                    </div>
+                </div>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
 
     <!--youtube search result template-->
     <script id="searchResultsTemplate" type="text/x-handlebars-template">

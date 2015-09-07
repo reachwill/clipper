@@ -68,8 +68,8 @@ section.page {
 /************ Project Dashboard Page Styles *******************************/
 
 .projectTile {
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border: 3px solid #efefef;
     padding: 7px;
 }
@@ -107,6 +107,11 @@ section.page {
 
 .deleteProjectLnk {
     background-color: #FF5A59;
+}
+
+#existingProjectsPane ul li {
+    display: inline-block;
+    margin: 20px;
 }
 
 
