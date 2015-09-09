@@ -7,6 +7,9 @@ var ClipperPlayer = {
     youtubePlayer: null,
     currentVideo: null,
     activeRangeSlider: null,
+    activePlayer: null,
+    timer: null,
+    clipMode: false,
 
 
 
@@ -45,11 +48,17 @@ var ClipperPlayer = {
         return (hours < 10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
     },
 
+    HMSToSecs: function (hms) {
+        var hms = hms; // your input string
+        var a = hms.split(':'); // split it at the colons
 
-    play: function (sourceType, source) {
+        // minutes are worth 60 seconds. Hours are worth 60 minutes.
+        return (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    },
+
+
+    play: function (sourceType, source, clip) {
         var sourceObj;
-
-
         switch (sourceType) {
         case 'blob':
             sourceObj = ClipperPlayer.prepareBlob(source);
@@ -70,6 +79,7 @@ var ClipperPlayer = {
         ClipperPlayer.currentVideo = sourceObj;
 
         if (sourceType == 'youtube') {
+            ClipperPlayer.activePlayer = ClipperPlayer.youtubePlayer;
             ClipperPlayer.youtubePlayer.src({
                 "type": sourceObj.type,
                 "src": sourceObj.videoURL
@@ -80,6 +90,7 @@ var ClipperPlayer = {
             $('#youtubePlayer').show();
             ClipperPlayer.activeRangeSlider = mplayer2;
         } else {
+            ClipperPlayer.activePlayer = ClipperPlayer.previewPlayer;
             ClipperPlayer.previewPlayer.src({
                 "type": sourceObj.type,
                 "src": sourceObj.videoURL
@@ -91,8 +102,29 @@ var ClipperPlayer = {
             ClipperPlayer.activeRangeSlider = mplayer;
         }
 
+        //if we are previewing a clip
+        if (clip) {
+            //set ClipperPlayer to clipMode
+            ClipperPlayer.clipMode = true;
+            //get reference to Project Manager's current active clip
+            var activeClip = ProjectManager.activeClip;
+            //move playhead to start of clip
+            ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+            //start monitoring clip as it plays
+            ClipperPlayer.monitorClipPlayback();
+
+            //ClipperPlayer.activeRangeSlider.playBetween(ClipperPlayer.HMSToSecs(activeClip.start), ClipperPlayer.HMSToSecs(activeClip.end));
+            //ClipperPlayer.activeRangeSlider.setValueSlider(10, 20);
 
 
+            View.showThing($('#clipPropsEditor'), 'slideDown');
+            View.hideThing($('#createClipLnk'), 'sudden');
+            View.populateFields();
+
+        } else {
+            //reset ClipperPlayer.clipMode to false
+            ClipperPlayer.clipMode = false;
+        }
 
     },
 
@@ -117,10 +149,9 @@ var ClipperPlayer = {
     //returns object prepared for a locally sourced video
     prepareRemote: function (source) {
 
-
         return {
             sourceType: 'remote',
-            videoURL: source.data('videourl'),
+            videoURL: source.data('videoid'),
             lastModified: null,
             name: source.data('name'),
             type: 'video/webm',
@@ -135,8 +166,6 @@ var ClipperPlayer = {
     prepareLocal: function (source) {
         var file = source.context.files[0];
         var type = file.type;
-        //        var videoNode = document.querySelector('video');
-        //        var canPlay = videoNode.canPlayType(type);
         var fileURL = URL.createObjectURL(file);
 
         return {
@@ -171,9 +200,29 @@ var ClipperPlayer = {
             title: title
 
         };
+    },
+
+
+    monitorClipPlayback: function () {
+        var self = ClipperPlayer;
+        var activeClip = ProjectManager.activeClip;
+        var activePlayer = self.activePlayer;
+
+
+        console.log(activePlayer.currentTime() + ':' + self.HMSToSecs(activeClip.end));
+        if (activePlayer.currentTime() < self.HMSToSecs(activeClip.end)) {
+            setTimeout(self.monitorClipPlayback, 25)
+        } else {
+            activePlayer.pause();
+        }
+
+    },
+    metaReady: function () {
+        if (ClipperPlayer.activePlayer != null) {
+            //ClipperPlayer.activeRangeSlider.setValueSlider(0, ClipperPlayer.activePlayer.duration());
+        }
     }
 }
-
 
 //instantiation of videojs players instances for previewing videos before adding to projects
 videojs("previewer", {
@@ -181,6 +230,12 @@ videojs("previewer", {
     "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ"
 }).ready(function () {
     ClipperPlayer.previewPlayer = this;
+    this.on('loadedmetadata', function () {
+        ClipperPlayer.metaReady();
+    });
+    this.on('timeupdate', function () {
+        View.updateTimerDisplays();
+    });
 });
 
 videojs("previewer-youtube", {
@@ -188,4 +243,10 @@ videojs("previewer-youtube", {
     "src": "http://www.youtube.com/watch?v=xjS6SftYQaQ"
 }).ready(function () {
     ClipperPlayer.youtubePlayer = this;
+    this.on('loadedmetadata', function () {
+        ClipperPlayer.metaReady();
+    });
+    this.on('timeupdate', function () {
+        View.updateTimerDisplays();
+    });
 });

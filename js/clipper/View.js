@@ -1,5 +1,62 @@
 var View = {
 
+    //called at page load to configure start interafce
+    init: function () {
+        View.hideThing($('#clipPropsEditor'), 'sudden');
+        View.hideThing($('#annotationEditor'), 'sudden');
+        View.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));
+        View.clearFields($('#clipPropsEditor'));
+        $('.tabContent').hide();
+    },
+
+    shrinkHeader: function () {
+        $('#projectTitle').css('font-size', '.9em')
+    },
+
+    hideThing: function (thing, how) {
+        switch (how) {
+        case 'sudden':
+            thing.hide();
+            break;
+        case 'slideUp':
+            thing.slideUp();
+            break;
+        }
+
+
+    },
+
+    showThing: function (thing, how) {
+        switch (how) {
+        case 'slideDown':
+            thing.slideDown();
+            break;
+        case 'fade':
+            thing.fadeIn();
+            break;
+        }
+    },
+
+    populateFields: function () {
+        var activeClip = ProjectManager.activeClip;
+        $('#clipTitleTxt').val(activeClip.title);
+        $('#clipDescTxt').val(activeClip.description);
+        View.populateAnnoFields();
+    },
+
+    populateAnnoFields: function () {
+        var activeClip = ProjectManager.activeClip;
+        $('.annosBelongTo').text(activeClip.title);
+    },
+
+    clearFields: function (container) {
+        container.find('input,textarea').val('');
+    },
+
+    updateTimerDisplays: function () {
+        $('.annotationTimeDisplay').text(ClipperPlayer.activePlayer.currentTime());
+    },
+
     //called from any location in the application when an element is to be enabled for user interaction.
     //param id String - value of the html element's id attribute
     enableElement: function (id) {
@@ -56,7 +113,9 @@ var View = {
                 description: item.description,
                 start: item.start,
                 end: item.end,
-                thumbnail: item.thumbnail
+                thumbnail: item.thumbnail,
+                sourcetype: item.sourceType,
+                resource: item.resource
             });
         }
 
@@ -156,6 +215,24 @@ var View = {
         var output = template(arrayToRender); //generate the actual HTML to be displayed
 
         $("#existingProjectsPane").html(output); //display the HTML
+    },
+    controller: {
+        changeView: function (view, clicked) {
+            $('#projectPage>header nav a').removeClass('active');
+            clicked.addClass('active');
+            $('#projectPage>section').hide();
+            $('#' + view).fadeIn(500);
+            //hide the clipEditor controls
+
+        },
+        changeAnnoEditorView: function (view, clicked) {
+            $('#annotationEditor .tabLink').removeClass('active');
+            clicked.addClass('active');
+            $('#annotationEditor .tabContent').hide();
+            $('#' + view).fadeIn(500);
+            //hide the clipEditor controls
+
+        }
     }
 
 }

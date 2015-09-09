@@ -2,6 +2,8 @@ ProjectManager = {
 
     activeProject: null,
 
+    activeClip: null,
+
     existingProjects: [
         {
             projectTitle: 'Ferraris',
@@ -34,30 +36,47 @@ ProjectManager = {
     createNewClip: function (cliplistIndex) {
 
         var self = ProjectManager;
+        //set up uniqueId
         var d = new Date();
         var uniqueId = d.getTime();
-        self.activeProject.cliplists[cliplistIndex].clips.push({
+
+        //prepare sourcetype (set to blob if its a local file)
+        var sourceType = ClipperPlayer.currentVideo.sourceType;
+        if (sourceType == 'local') {
+            sourceType = 'blob';
+        }
+
+        //create a new clip object
+        var clip = {
             id: uniqueId,
             title: 'Untitled Clip',
             description: '',
             authors: [],
-            parentProject: uniqueId,
+            parentProject: self.activeProject.projectId,
+            parentCliplist: 0,
             clips: [],
             dateCreated: d,
             lastModified: d,
             resource: ClipperPlayer.getCurrentVideo().videoURL,
+            sourceType: sourceType,
             start: ClipperPlayer.getClipStart(),
             end: ClipperPlayer.getClipEnd(),
-            thumbnail: ClipperPlayer.getCurrentVideo().thumbnail
-        });
+            thumbnail: ClipperPlayer.getCurrentVideo().thumbnail,
+            annotations: []
+        };
+        //add new clip to top of cliplist
+        self.activeProject.cliplists[cliplistIndex].clips.unshift(clip);
+        //update user view
         View.updateClipsInClipList(cliplistIndex);
+        //register new clip as current active clip for editing
+        self.activeClip = clip;
     },
 
     createNewProject: function (form) {
         var self = ProjectManager;
         var d = new Date();
         var uniqueId = d.getTime();
-        self.existingProjects.push({
+        self.existingProjects.unshift({
             projectTitle: form.find('#newProjectTitle').val(),
             projectId: uniqueId,
             projectDesc: 'Click to add description.',
@@ -98,9 +117,53 @@ ProjectManager = {
         //update the view based on project change
         View.updateResourceList();
         View.updateCliplistList();
+    },
 
+    setActiveClip: function (clipId) {
+        var self = ProjectManager;
+        if (clipId == null || clipId == undefined) {
+            self.createNewClip(0);
+        } else {
+            //find the clip in cliplists
+            var found = false;
+            var numCliplists = self.activeProject.cliplists.length;
+            for (var i = 0; i < numCliplists; i++) {
+                var numClips = self.activeProject.cliplists[i].clips.length;
+                for (var z = 0; z < numClips; z++) {
+                    if (self.activeProject.cliplists[i].clips[z].id == clipId) {
+                        found = true;
+                        self.activeClip = self.activeProject.cliplists[i].clips[z];
+                        break;
+                    }
+                }
+            }
+        }
 
+    },
 
+    ejectActiveClip: function () {
+        var self = ProjectManager;
+        self.activeClip = null;
+        //hide clipProps
+        View.hideThing($('#clipPropsEditor'), 'slideUp');
+        //hide annotationProps
+        View.hideThing($('#annotationEditor'), 'sudden');
+        //show create clip button
+        View.showThing($('#createClipLnk'), 'fade');
+        //empty clip editor fields
+        View.clearFields($('#clipPropsEditor'));
+    },
+
+    updateClipProps: function () {
+        var self = ProjectManager;
+        var clip = self.activeClip;
+        clip.title = $('#clipTitleTxt').val();
+        clip.description = $('#clipDescTxt').val();
+        clip.start = ClipperPlayer.getClipStart();
+        clip.end = ClipperPlayer.getClipEnd();
+        clip.lastModified = new Date();
+        //update cliplists user view
+        View.updateClipsInClipList(0);
     },
 
     updateProjectProp: function (prop, value) {
@@ -119,16 +182,6 @@ ProjectManager = {
             View.updateResourceList();
             break;
         }
-    },
-    controller: {
-        changeView: function (view, clicked) {
-            $('#projectPage>header nav a').removeClass('active');
-            clicked.addClass('active');
-            $('#projectPage>section').hide();
-            $('#' + view).fadeIn(500);
-        }
     }
 
 }
-
-ProjectManager.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));

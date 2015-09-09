@@ -19,7 +19,7 @@ body {
     max-width: 1065px;
     position: relative;
     z-index: 1000;
-    background-color: #0088B2;
+    background-color: rgba(0, 0, 0, .8);
     height: 45px;
     padding: 15px 0 15px 15px;
     margin: 10px 0 0 0;
@@ -126,7 +126,7 @@ section.page {
 #projectPage>header {
     width: 98%;
     max-width: 1025px;
-    background-color: #0088B2;
+    background-color: rgba(0, 0, 0, .65);
     padding: 15px 0 15px 15px;
 }
 
@@ -163,6 +163,120 @@ section.page {
 
 #projectPage .panel {
     width: 40%;
+}
+
+
+/************PREVIEW PANE*******************************/
+
+#previewPane {
+    background: black;
+    margin-bottom: 10px;
+}
+
+#clipEditorControls {
+    margin: 30px 0;
+    position: relative;
+}
+
+#clipEditorControls a,
+#clipEditorControls li {
+    color: white;
+}
+
+#clipEditorControls li {
+    font-size: .85em;
+    margin: 15px 0;
+}
+
+#clipEditorControls label {
+    display: none;
+}
+
+#clipEditorControls input,
+#clipEditorControls textarea {
+    font-size: 1em;
+    width: 100%;
+}
+
+#clipPropsEditor {}
+
+#annotationEditor {
+    position: absolute;
+    top: -400px;
+    right: 100%;
+    border: 2px solid black;
+    border-radius: 5px;
+    border-top-right-radius: 0;
+    border-right: none;
+    width: 100%;
+    height: 400px;
+    background: rgba(0, 0, 0, .8);
+    padding: 5px;
+}
+
+#annotationEditor h2 {
+    color: white;
+    border-bottom: 1px solid white;
+    background: #222;
+    padding: 5px;
+    width: 95%;
+}
+
+#annotationEditor .tabs {
+    background: #222;
+    padding: 5px;
+    width: 95%;
+}
+
+#annotationEditor .tabs li {
+    display: inline-block;
+    width: 40%;
+}
+
+#annotationEditor .tabs li a {
+    display: inline-block;
+    width: 80%;
+    border: 1px solid white;
+    padding: 5px;
+    text-decoration: none;
+}
+
+#annotationEditor #savedAnnosPane li {
+    display: block;
+}
+
+#annotationEditor #createAnnosPane li {
+    width: 20%;
+}
+
+#annotationEditor #createAnnosPane li a {
+    font-size: .85em;
+    background: #ccc;
+    text-align: center;
+    color: #222;
+    width: 100%;
+}
+
+#annotationEditor #createAnnosPane textarea {
+    min-height: 225px;
+    width: 98%;
+}
+
+.annotationTimeDisplay {
+    font-size: .6em;
+    color: white;
+    font-family: courier;
+}
+
+.annotationTimeDisplay:before {
+    content: 'Current position: ';
+}
+
+
+/************VIDEOJS RANGE SLIDER*******************************/
+
+.vjs-controltimepanel-RS {
+    background: black;
 }
 
 

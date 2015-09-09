@@ -9,7 +9,7 @@ var DBCommunicator = {
             //change to project view -- move this to AJAX success call back
         PageNavigator.changePage('projectPage', $(this));
         //reset sub nav in project page to colections view
-        ProjectManager.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));
+        View.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));
 
 
     }

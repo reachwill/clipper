@@ -84,10 +84,12 @@
                 <!--START Wellcome Foundation browse interface-->
                 <div id="wellcomeFileSearch" class="panel">
                     <ul>
-                        <li><a href="#" class="wellcomeLink" data-videourl="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-name="Dying for a smoke">Video 1</a></li>
+                        <li><a href="#" class="wellcomeLink" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote">Video 1</a><a class="addToProjectLnk linkBtn" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote" data-thumbnail="css/icons/1441652014_film_clip_movie_timestamp.svg" href="#">Add to Project</a></li>
                     </ul>
                 </div>
                 <!--END Local file browse interface-->
+
+
 
 
 
@@ -180,12 +182,53 @@
                     </script>
                 </div>
                 <!--END youtube videojs player-->
-
-
-
-
                 <div id="clipEditorControls">
                     <a class="linkBtn" id="createClipLnk" href="#">Create Clip</a>
+                    <div id="annotationEditor">
+                        <h2>Annotations (<span class="annosBelongTo"></span>)</h2>
+                        <div class="tabs">
+                            <ul>
+                                <li><a href="#" class="tabLink" id="showSavedAnnosLnk" data-view="savedAnnosPane">Saved Annotations</a></li>
+                                <li><a href="#" class="tabLink" id="createAnnosLnk" data-view="createAnnosPane">Create Annotation</a></li>
+                            </ul>
+                            <div id="savedAnnosPane" class="tabContent">
+                                <ul id="savedAnnosList">
+                                    <li>Annotation text here</li>
+                                    <li>And here..</li>
+                                </ul>
+                            </div>
+                            <div id="createAnnosPane" class="tabContent">
+                                <ul id="savedAnnosList">
+                                    <li><a href="#" class="tabLink">New</a></li>
+                                    <li><a href="#" class="tabLink">Save</a></li>
+                                </ul>
+                                <p class="annotationTimeDisplay"></p>
+                                <textarea id="annoEditorText"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="clipPropsEditor">
+
+
+
+                        <ul class="clipPropsControls">
+                            <li>
+                                <label for="clipTitleTxt">Title: </label>
+                                <input type="text" id="clipTitleTxt" placeholder="Title">
+                            </li>
+                            <li>
+                                <label for="clipDescTxt">Description: </label>
+                                <textarea id="clipDescTxt" placeholder="Description"></textarea>
+                            </li>
+                            <li>
+                                <a class="linkBtn" id="openAnnoEditorLnk" href="#">Annotate</a>
+                                <a class="linkBtn" id="saveClipLnk" href="#">Save Clip</a>
+                                <a class="linkBtn" id="closeClipPropsLnk" href="#">Done</a>
+                            </li>
+                        </ul>
+
+                    </div>
                 </div>
             </div>
             <!--END video preview interface-->
@@ -292,7 +335,7 @@
                 <p class="title">{{title}}</p>
                 <p class="bounds">Start: {{start}} - End: {{end}}</p>
                 <p class="description">{{description}}</p>
-                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoid}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}">Preview</a>
+                <a class=" previewLnk linkBtn " href="# " data-videoId="{{resource}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype={{sourcetype}} data-start="{{start}}" data-end="{{end}}" data-clipid="{{id}}">Preview</a>
             </li>
             {{/items}}
         </ul>
