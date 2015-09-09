@@ -106,10 +106,16 @@ var ClipperPlayer = {
         if (clip) {
             //set ClipperPlayer to clipMode
             ClipperPlayer.clipMode = true;
-            //get reference to Project Manager's current active clip
-            var activeClip = ProjectManager.activeClip;
-            //move playhead to start of clip
-            ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+
+            //if we are viewing the youtube player we don't get loadedmetadata so have to trigger currentTime play start here
+
+            if (ClipperPlayer.activePlayer == ClipperPlayer.youtubePlayer) {
+                //get reference to Project Manager's current active clip
+                var activeClip = ProjectManager.activeClip;
+                //move playhead to start of clip
+                console.log(ClipperPlayer.HMSToSecs(activeClip.start))
+                ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+            }
             //start monitoring clip as it plays
             ClipperPlayer.monitorClipPlayback();
 
@@ -209,8 +215,9 @@ var ClipperPlayer = {
         var activePlayer = self.activePlayer;
 
 
-        console.log(activePlayer.currentTime() + ':' + self.HMSToSecs(activeClip.end));
+        //console.log(activePlayer.currentTime() + ':' + self.HMSToSecs(activeClip.end));
         if (activePlayer.currentTime() < self.HMSToSecs(activeClip.end)) {
+
             setTimeout(self.monitorClipPlayback, 25)
         } else {
             activePlayer.pause();
@@ -219,6 +226,15 @@ var ClipperPlayer = {
     },
     metaReady: function () {
         if (ClipperPlayer.activePlayer != null) {
+            if (ProjectManager.activeClip != null || ProjectManager.activeClip != undefined) {
+                var activeClip = ProjectManager.activeClip;
+                //move playhead to start of clip
+
+                ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+                //start monitoring clip as it plays
+                ClipperPlayer.monitorClipPlayback();
+            }
+
             //ClipperPlayer.activeRangeSlider.setValueSlider(0, ClipperPlayer.activePlayer.duration());
         }
     }

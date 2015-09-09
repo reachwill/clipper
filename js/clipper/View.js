@@ -21,6 +21,9 @@ var View = {
         case 'slideUp':
             thing.slideUp();
             break;
+        case 'fade':
+            thing.fadeOut();
+            break;
         }
 
 

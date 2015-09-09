@@ -147,7 +147,7 @@ ProjectManager = {
         //hide clipProps
         View.hideThing($('#clipPropsEditor'), 'slideUp');
         //hide annotationProps
-        View.hideThing($('#annotationEditor'), 'sudden');
+        View.hideThing($('#annotationEditor'), 'fade');
         //show create clip button
         View.showThing($('#createClipLnk'), 'fade');
         //empty clip editor fields
