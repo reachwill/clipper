@@ -26,7 +26,7 @@ var ClipperPlayer = {
         }
         var values = slider.getValueSlider();
         //return videojs.round(values.start, 2);
-        return ClipperPlayer.secsToHMS(values.start, 2);
+        return Utilities.secsToHMS(values.start, 2);
     },
 
     getClipEnd: function () {
@@ -38,7 +38,7 @@ var ClipperPlayer = {
         }
         var values = slider.getValueSlider();
         //return videojs.round(values.start, 2);
-        return ClipperPlayer.secsToHMS(values.end, 2);
+        return Utilities.secsToHMS(values.end, 2);
     },
 
     secsToHMS: function (totalSec) {
@@ -113,19 +113,20 @@ var ClipperPlayer = {
                 //get reference to Project Manager's current active clip
                 var activeClip = ProjectManager.activeClip;
                 //move playhead to start of clip
-                console.log(ClipperPlayer.HMSToSecs(activeClip.start))
-                ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+                ClipperPlayer.activePlayer.currentTime(Utilities.HMSToSecs(activeClip.start));
             }
             //start monitoring clip as it plays
             ClipperPlayer.monitorClipPlayback();
 
-            //ClipperPlayer.activeRangeSlider.playBetween(ClipperPlayer.HMSToSecs(activeClip.start), ClipperPlayer.HMSToSecs(activeClip.end));
+            //ClipperPlayer.activeRangeSlider.playBetween(Utilities.HMSToSecs(activeClip.start), Utilities.HMSToSecs(activeClip.end));
             //ClipperPlayer.activeRangeSlider.setValueSlider(10, 20);
 
 
             View.showThing($('#clipPropsEditor'), 'slideDown');
+            View.showThing($('#createClipLnk'), 'fade');
             View.hideThing($('#createClipLnk'), 'sudden');
             View.populateFields();
+
 
         } else {
             //reset ClipperPlayer.clipMode to false
@@ -215,8 +216,8 @@ var ClipperPlayer = {
         var activePlayer = self.activePlayer;
 
 
-        //console.log(activePlayer.currentTime() + ':' + self.HMSToSecs(activeClip.end));
-        if (activePlayer.currentTime() < self.HMSToSecs(activeClip.end)) {
+
+        if (activePlayer.currentTime() < Utilities.HMSToSecs(activeClip.end)) {
 
             setTimeout(self.monitorClipPlayback, 25)
         } else {
@@ -230,7 +231,7 @@ var ClipperPlayer = {
                 var activeClip = ProjectManager.activeClip;
                 //move playhead to start of clip
 
-                ClipperPlayer.activePlayer.currentTime(ClipperPlayer.HMSToSecs(activeClip.start));
+                ClipperPlayer.activePlayer.currentTime(Utilities.HMSToSecs(activeClip.start));
                 //start monitoring clip as it plays
                 ClipperPlayer.monitorClipPlayback();
             }

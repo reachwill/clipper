@@ -4,6 +4,8 @@ ProjectManager = {
 
     activeClip: null,
 
+    activeAnno: null,
+
     existingProjects: [
         {
             projectTitle: 'Ferraris',
@@ -70,6 +72,31 @@ ProjectManager = {
         View.updateClipsInClipList(cliplistIndex);
         //register new clip as current active clip for editing
         self.activeClip = clip;
+
+    },
+
+    createNewAnno: function () {
+        var self = ProjectManager;
+        var annoTime = ClipperPlayer.activePlayer.currentTime();
+
+        //set up uniqueId if new anno
+        var d = new Date();
+        var uniqueId = d.getTime();
+        //create a new clip object
+        var anno = {
+            id: uniqueId,
+            authors: [],
+            parentProject: self.activeProject.projectId,
+            parentClip: self.activeClip.id,
+            dateCreated: d,
+            lastModified: d,
+            start: annoTime,
+            end: ClipperPlayer.getClipEnd(),
+            text: $('#annoEditorText').val()
+        };
+        self.activeClip.annotations.unshift(anno);
+        self.activeAnno = anno;
+        View.updateClipAnnoList();
     },
 
     createNewProject: function (form) {
@@ -102,6 +129,25 @@ ProjectManager = {
             tags: []
         });
         View.updateExistingProjectsList();
+    },
+
+    setActiveAnno: function (annoId) {
+        var self = ProjectManager;
+        if (annoId == null || annoId == undefined) {
+            self.createNewAnno();
+        } else {
+            //find the annotation in the active clip
+            var found = false;
+            var numAnnos = self.activeClip.annotations.length;
+            for (var i = 0; i < numAnnos; i++) {
+                if (self.activeClip.annotations[i].id == annoId) {
+                    found = true;
+                    self.activeAnno = self.activeClip.annotations[i];
+                    break;
+                }
+            }
+        }
+
     },
 
     setActiveProject: function (projectId) {
@@ -154,6 +200,14 @@ ProjectManager = {
         View.clearFields($('#clipPropsEditor'));
     },
 
+    ejectActiveAnno: function () {
+        var self = ProjectManager;
+        self.activeAnno = null;
+
+        //empty anno editor fields
+        View.clearFields($('#annotationEditor'));
+    },
+
     updateClipProps: function () {
         var self = ProjectManager;
         var clip = self.activeClip;
@@ -164,6 +218,51 @@ ProjectManager = {
         clip.lastModified = new Date();
         //update cliplists user view
         View.updateClipsInClipList(0);
+    },
+
+    updateAnnoProps: function (annoText, annoStart) {
+        var self = ProjectManager;
+        if (self.activeAnno == null) {
+            self.createNewAnno();
+        }
+        var anno = self.activeAnno;
+
+        //check if param has been sent from quickEdit mode
+        if (annoText == null || annoText == undefined) {
+            anno.text = $('#annoEditorText').val(); //use annotationEditor textarea
+        } else {
+            anno.text = annoText; //use value sent from quickEdit mode
+        }
+
+        //check if param has been sent from quickEdit mode
+        if (annoStart == null || annoStart == undefined) {
+            anno.start = $('#annoStartTime').val(); //use annotationEditor textarea
+        } else {
+            anno.start = annoStart; //use value sent from quickEdit mode
+        }
+
+
+
+        //anno.end = ClipperPlayer.getClipEnd();
+        anno.end = ProjectManager.activeClip.end;
+        anno.lastModified = new Date();
+        //update annotation user view
+        View.updateClipAnnoList();
+
+    },
+
+    updateAnnoTime: function () {
+        var self = ProjectManager;
+        if (self.activeAnno == null) {
+            self.createNewAnno();
+        }
+        var anno = self.activeAnno;
+
+        anno.start = $('#annoStartTime').val();
+        anno.end = ClipperPlayer.getClipEnd();
+        anno.lastModified = new Date();
+        //update annotation user view
+        View.updateAnnoStartField(anno.start);
     },
 
     updateProjectProp: function (prop, value) {

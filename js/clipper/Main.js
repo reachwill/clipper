@@ -1,13 +1,19 @@
 $(document).ready(function () {
 
 
-    //    $('#previewPane').css({
-    //        position: 'absolute',
-    //        maxWidth: '960px',
-    //        width: '100%'
-    //    });
+
     View.init();
     View.updateExistingProjectsList();
+
+
+    //collapse the collections panels
+    $('#collectionsSection .panel .content').hide();
+    $('#collectionsSection .panel h2').click(function () {
+        var content = $(this).parent().find('.content');
+        content.toggle();
+    });
+
+
     //set up user initiated event handlers for all view elements
 
     //when user clicks to create a new project
@@ -73,7 +79,6 @@ $(document).ready(function () {
         e.preventDefault();
         View.showThing($('#clipPropsEditor'), 'slideDown');
         View.hideThing($('#createClipLnk'), 'sudden');
-        //View.shrinkHeader();
         ProjectManager.setActiveClip();
     });
 
@@ -82,13 +87,14 @@ $(document).ready(function () {
     $('#openAnnoEditorLnk').click(function (e) {
         e.preventDefault();
         View.showThing($('#annotationEditor'), 'fade');
-        View.populateAnnoFields();
+        View.updateAnnoPane();
     });
 
     //when user clicks to save clip properties
     $('#saveClipLnk').click(function (e) {
         e.preventDefault();
         ProjectManager.updateClipProps();
+        View.updateAnnoPane();
     });
 
 
@@ -97,23 +103,75 @@ $(document).ready(function () {
         e.preventDefault();
         //clear ProjectManager.activeClip and clear form fields ready for another new clip
         ProjectManager.ejectActiveClip();
+        ProjectManager.ejectActiveAnno();
     });
 
-    //when user clicks to view saved annotations in the annotation editor
+    //when user clicks to view saved annotations or create a new annotation in the annotation editor
     $('#showSavedAnnosLnk,#createAnnosLnk').click(function (e) {
         e.preventDefault();
+        ProjectManager.ejectActiveAnno();
         View.controller.changeAnnoEditorView($(this).data('view'), $(this));
-        //clear ProjectManager.activeClip and clear form fields ready for another new clip
-        //        View.showThing($('#savedAnnosPane'), 'fade');
-        //        View.hideThing($('#createAnnosPane'), 'sudden');
     });
 
     //when user clicks to view saved annotations in the annotation editor
+    $('#showSavedAnnosLnk').click(function (e) {
+        e.preventDefault();
+        //clear current activeAnno in ProjectManager
+        ProjectManager.ejectActiveAnno();
+    });
+
+    //when user clicks to create an annotation in the annotation editor
     $('#createAnnosLnk').click(function (e) {
         e.preventDefault();
-        //clear ProjectManager.activeClip and clear form fields ready for another new clip
-        //        View.showThing($('#createAnnosPane'), 'fade');
-        //        View.hideThing($('#savedAnnosPane'), 'sudden');
+        //ProjectManager.setActiveAnno();
+    });
+
+    $('#newAnnoLink').click(function (e) {
+        e.preventDefault();
+        //save text, time and anno id
+        ProjectManager.ejectActiveAnno();
+    });
+
+    $('#saveAnnoLink').click(function (e) {
+        e.preventDefault();
+        View.setAnnoDefaultTime(); //default time displayed in annotation editor unless user sets it
+        //save text, time and anno id
+        ProjectManager.updateAnnoProps();
+
+    });
+
+    $('#setAnnoTimeLink').click(function (e) {
+        e.preventDefault();
+        //save text, time and anno id
+        View.updateAnnoStartField();
+        ProjectManager.updateAnnoTime();
+    });
+
+    //when user clicks add to project link anywhere in interface
+    $('#savedAnnosPane').on('click', '.quickEditLnk', function (e) {
+        e.preventDefault();
+        var annoText = $(this).parent().find('.annoText');
+        //check editMode of button
+        //if !hasClass('editMode')
+        if ($(this).hasClass('editMode')) {
+            //set annotation to be editable and focus
+            annoText.attr('contenteditable', 'false').focus();
+
+            ProjectManager.setActiveAnno($(this).data('id'));
+            ProjectManager.updateAnnoProps(annoText.text(), $(this).data('start'));
+
+            //revert button to quick edit mode
+            $(this).removeClass('editMode').text('Quick Edit');
+        } else {
+            //set annotation to be editable and focus
+            annoText.attr('contenteditable', 'true').focus();
+            //change button to saver
+            $(this).addClass('editMode').text('Save Changes');
+        }
+
+
+
+
     });
 
 

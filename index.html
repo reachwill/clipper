@@ -48,7 +48,7 @@
             <!--END Existing Projects Pane-->
 
         </section>
-        <!--END Project Page-->
+        <!--END Dashboard Page-->
 
 
         <!--START Project Page-->
@@ -73,19 +73,41 @@
 
             <section id="collectionsSection">
 
+                <!--START Youtube search interface-->
+                <div id="youtubeSearch" class="panel">
+                    <h2>Search Youtube</h2>
+                    <div class="content">
+                        <div id="buttons">
+                            <label>
+                                <input id="query" value='ferraris' type="text" />
+                                <button id="youtubeSearchBtn" disabled>Search</button>
+                            </label>
+                        </div>
+
+                        <div id="searchResults"></div>
+                    </div>
+                </div>
+                <!--END Youtube search interface-->
+
                 <!--START Local file browse interface-->
                 <div id="localFileSearch" class="panel">
-                    <input type="file" accept="video/mp4,video/x-m4v,video/*,audio/mp3" id="localSearchInput" />
-                    <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
+                    <h2>Local Media Collection</h2>
+                    <div class="content">
+                        <input type="file" accept="video/mp4,video/x-m4v,video/*,audio/mp3" id="localSearchInput" />
+                        <a class="addToProjectLnk linkBtn" href="#">Add to Project</a>
+                    </div>
                 </div>
                 <!--END Local file browse interface-->
 
 
                 <!--START Wellcome Foundation browse interface-->
                 <div id="wellcomeFileSearch" class="panel">
-                    <ul>
-                        <li><a href="#" class="wellcomeLink" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote">Video 1</a><a class="addToProjectLnk linkBtn" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote" data-thumbnail="css/icons/1441652014_film_clip_movie_timestamp.svg" href="#">Add to Project</a></li>
-                    </ul>
+                    <h2>Wellcome Trust Collection</h2>
+                    <div class="content">
+                        <ul>
+                            <li><a href="#" class="wellcomeLink" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote">Video 1</a><a class="addToProjectLnk linkBtn" data-videoid="https://s3-eu-west-1.amazonaws.com/wdl-video-open/mp4/3d380cc7-9bd6-4883-bb8b-895e5b95c195.mp4" data-title="Dying for a smoke" data-description="Cartoon about smoking.." data-sourcetype="remote" data-thumbnail="css/icons/1441652014_film_clip_movie_timestamp.svg" href="#">Add to Project</a></li>
+                        </ul>
+                    </div>
                 </div>
                 <!--END Local file browse interface-->
 
@@ -93,17 +115,7 @@
 
 
 
-                <!--START Youtube search interface-->
-                <div id="youtubeSearch" class="panel">
-                    <div id="buttons">
-                        <label>
-                            <input id="query" value='ferraris' type="text" />
-                            <button id="youtubeSearchBtn" disabled>Search</button>
-                        </label>
-                    </div>
-                    <div id="searchResults"></div>
-                </div>
-                <!--END Youtube search interface-->
+
             </section>
             <!--END Collections Section-->
 
@@ -182,36 +194,54 @@
                     </script>
                 </div>
                 <!--END youtube videojs player-->
+
+
+                <!--START clipEditorControls-->
                 <div id="clipEditorControls">
                     <a class="linkBtn" id="createClipLnk" href="#">Create Clip</a>
+                    <!--START annotationEditor-->
                     <div id="annotationEditor">
                         <h2>Annotations (<span class="annosBelongTo"></span>)</h2>
                         <div class="tabs">
                             <ul>
+                                <li><a href="#" class="tabLink" id="createAnnosLnk" data-view="createAnnosPane">Annotation Editor</a></li>
                                 <li><a href="#" class="tabLink" id="showSavedAnnosLnk" data-view="savedAnnosPane">Saved Annotations</a></li>
-                                <li><a href="#" class="tabLink" id="createAnnosLnk" data-view="createAnnosPane">Create Annotation</a></li>
+
                             </ul>
+
+                            <!--START createAnnosPane-->
+                            <div id="createAnnosPane" class="tabContent">
+                                <ul id="savedAnnosList">
+                                    <li><a href="#" class="tabLink" id="newAnnoLink">New</a></li>
+                                    <li><a href="#" class="tabLink" id="saveAnnoLink">Save</a></li>
+                                </ul>
+                                <div id="annoTimeControls">
+                                    <span class="annotationTimeDisplay"></span>
+                                    <a href="#" class="tabLink" id="setAnnoTimeLink">Set Time of Annotation</a>
+                                    <input id="annoStartTime">
+                                </div>
+                                <textarea id="annoEditorText"></textarea>
+                            </div>
+                            <!--END createAnnosPane-->
+
+
+                            <!--START savedAnnosPane-->
                             <div id="savedAnnosPane" class="tabContent">
                                 <ul id="savedAnnosList">
                                     <li>Annotation text here</li>
                                     <li>And here..</li>
                                 </ul>
                             </div>
-                            <div id="createAnnosPane" class="tabContent">
-                                <ul id="savedAnnosList">
-                                    <li><a href="#" class="tabLink">New</a></li>
-                                    <li><a href="#" class="tabLink">Save</a></li>
-                                </ul>
-                                <p class="annotationTimeDisplay"></p>
-                                <textarea id="annoEditorText"></textarea>
-                            </div>
+                            <!--END savedAnnosPane-->
+
                         </div>
-
+                        <!--END annotationEditor-->
                     </div>
+                    <!--END clipEditorControls-->
+
+
+
                     <div id="clipPropsEditor">
-
-
-
                         <ul class="clipPropsControls">
                             <li>
                                 <label for="clipTitleTxt">Title: </label>
@@ -243,6 +273,7 @@
     <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="js/vendors/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
     <script src="js/clipper/View.js"></script>
+    <script src="js/clipper/Utilities.js"></script>
     <script src="js/clipper/renderers/YoutubeSearchRenderer.js"></script>
     <script src="js/vendors/youtube/youtube-search.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
@@ -261,8 +292,8 @@
     <script id="existingProjectsTemplate" type="text/x-handlebars-template">
         <ul>
             {{#items}}
-            <li>
-                <div class="projectTile azureTile" data-projectId="{{projectId}}">
+            <li class="ferrari">
+                <div class="projectTile" data-projectId="{{projectId}}">
                     <h2>{{projectTitle}}</h2>
                     <div class="projectInfo">
                         <p class="projectDesc multiline-ellipsis">
@@ -274,7 +305,7 @@
                             <li>Clips: {{projectClipsCount}}</li>
                         </ul>
                         <a class="openProjectLnk linkBtn" href="#" data-projectid="{{projectId}}">Open Project</a>
-                        <a class=" deleteProjectLnk linkBtn " href="# " data-projectid="{{projectId}}">Delete Project</a>
+                        <a class=" deleteProjectLnk linkBtn " href="#" data-projectid="{{projectId}}">Delete Project</a>
                     </div>
                 </div>
             </li>
@@ -291,7 +322,7 @@
                 <p class="title">{{title}}</p>
                 <p class="description">{{description}}</p>
                 <a class="addToProjectLnk linkBtn" href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Add to Project</a>
-                <a class=" previewLnk linkBtn " href="# " data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
+                <a class=" previewLnk linkBtn " href="#" data-videoId="{{videoId}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
             </li>
             {{/items}}
         </ul>
@@ -305,7 +336,7 @@
                 <img src="{{thumbnail}}" class="thumbnail">
                 <p class="title">{{title}}</p>
                 <p class="description">{{description}}</p>
-                <a class=" previewLnk linkBtn " href="# " data-videoid="{{videoid}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
+                <a class=" previewLnk linkBtn " href="#" data-videoid="{{videoid}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}">Preview</a>
 
             </li>
             {{/items}}
@@ -335,7 +366,20 @@
                 <p class="title">{{title}}</p>
                 <p class="bounds">Start: {{start}} - End: {{end}}</p>
                 <p class="description">{{description}}</p>
-                <a class=" previewLnk linkBtn " href="# " data-videoId="{{resource}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype={{sourcetype}} data-start="{{start}}" data-end="{{end}}" data-clipid="{{id}}">Preview</a>
+                <a class=" previewLnk linkBtn " href="#" data-videoId="{{resource}}" data-title="{{title}}" data-description="{{description}}" data-thumbnail="{{thumbnail}}" data-sourcetype="{{sourcetype}}" data-start="{{start}}" data-end="{{end}}" data-clipid="{{id}}">View &amp; Edit</a>
+            </li>
+            {{/items}}
+        </ul>
+    </script>
+
+    <!--saved annotations list template-->
+    <script id="savedAnnosTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#items}}
+            <li class="annotation" data-id="{{id}}">
+                <p class="bounds"><span class="annoStartText">{{start}}</span> : <span class="annoText">{{text}}</span></p>
+                <a class=" quickEditLnk linkBtn " href="#" data-parentclipid="{{parentclipid}}" data-start="{{start}}" data-end="{{end}}" data-id="{{id}}">Quick Edit</a>
+                <a class=" editLnk linkBtn " href="#" data-parentclipid="{{parentclipid}}" data-start="{{start}}" data-end="{{end}}" data-id="{{id}}">Edit in Annotation Editor</a>
             </li>
             {{/items}}
         </ul>

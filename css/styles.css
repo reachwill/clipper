@@ -70,13 +70,17 @@ section.page {
 .projectTile {
     width: 300px;
     height: 300px;
-    border: 3px solid #efefef;
+    border: 3px solid #777;
     padding: 7px;
+    background: rgba(255, 255, 255, .9);
 }
 
 .projectTile h2 {
     font-weight: bold;
     margin-bottom: 15px;
+    background: #222;
+    padding: 5px;
+    color: white;
 }
 
 .projectDesc {
@@ -92,6 +96,11 @@ section.page {
     margin: 15px 0;
 }
 
+.ferrari {
+    background: url(eyecandy/fez1.jpg) no-repeat;
+    background-size: contain;
+}
+
 .orangeTile {
     background: rgba(255, 140, 25, .4);
 }
@@ -102,11 +111,11 @@ section.page {
 }
 
 .openProjectLnk {
-    background-color: #C1FF8C;
+    /*    background-color: #C1FF8C;*/
 }
 
 .deleteProjectLnk {
-    background-color: #FF5A59;
+    /*    background-color: #FF5A59;*/
 }
 
 #existingProjectsPane ul li {
@@ -152,7 +161,7 @@ section.page {
 #previewPane {
     position: absolute;
     top: 105px;
-    right: 10px;
+    right: 20px;
     width: 50%;
     max-width: 500px;
 }
@@ -162,7 +171,12 @@ section.page {
 }
 
 #projectPage .panel {
-    width: 40%;
+    width: 45%;
+}
+
+#previewPane .clipPropsControls .linkBtn {
+    width: 30%;
+    display: inline-block;
 }
 
 
@@ -195,14 +209,14 @@ section.page {
 #clipEditorControls input,
 #clipEditorControls textarea {
     font-size: 1em;
-    width: 100%;
+    width: 98%;
 }
 
 #clipPropsEditor {}
 
 #annotationEditor {
     position: absolute;
-    top: -400px;
+    top: -440px;
     right: 100%;
     border: 2px solid black;
     border-radius: 5px;
@@ -233,6 +247,15 @@ section.page {
     width: 40%;
 }
 
+#annotationEditor #savedAnnosPane ul {
+    height: 295px;
+    overflow: auto;
+}
+
+#annotationEditor #savedAnnosPane ul li {
+    width: 100%;
+}
+
 #annotationEditor .tabs li a {
     display: inline-block;
     width: 80%;
@@ -243,6 +266,7 @@ section.page {
 
 #annotationEditor #savedAnnosPane li {
     display: block;
+    border-bottom: 1px solid #ccc;
 }
 
 #annotationEditor #createAnnosPane li {
@@ -258,18 +282,60 @@ section.page {
 }
 
 #annotationEditor #createAnnosPane textarea {
-    min-height: 225px;
-    width: 98%;
+    min-height: 125px;
+    width: 97%;
 }
 
-.annotationTimeDisplay {
-    font-size: .6em;
+.annotationTimeDisplay,
+#annoStartTime {
+    font-size: .7em;
     color: white;
     font-family: courier;
+    margin-right: 10px;
+    display: inline-block;
+    width: 185px;
+}
+
+#annoStartTime {
+    background: transparent;
+    border: none;
+    color: orange;
+}
+
+#setAnnoTimeLink {
+    font-size: .7em;
+    padding: 5px;
 }
 
 .annotationTimeDisplay:before {
     content: 'Current position: ';
+}
+
+#savedAnnosPane ul {
+    background: white;
+    padding: 5px;
+    color: black;
+}
+
+#savedAnnosPane ul li {
+    color: black;
+}
+
+#annotationEditor #savedAnnosPane .linkBtn {
+    color: black;
+    border-color: #ccc;
+    display: inline-block;
+    width: 25%;
+}
+
+#clipEditorControls input#annoStartTime {
+    width: 65px;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.annoStartText {
+    color: orange;
 }
 
 
@@ -319,7 +385,7 @@ section.page {
 }
 
 .resource {
-    height: 85px;
+    min-height: 85px;
 }
 
 .title {
@@ -335,7 +401,7 @@ section.page {
     display: block;
     padding: 5px;
     font-size: .8em;
-    border: 1px solid #ccc;
+    border: 1px solid #777;
     border-radius: 5px;
     text-align: center;
     margin: 7px 0;
@@ -344,20 +410,74 @@ section.page {
 }
 
 #youtubeSearch {
-    height: 400px;
+    /*    height: 400px;*/
+    width: 300px;
+    background: rgba(0, 0, 0, .1);
+}
+
+#youtubeSearch h2 {
+    background: white url(eyecandy/YouTube-logo-full_color.png) no-repeat top right;
+    background-size: 20%;
+    height: 40px;
+    padding: 5px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+#youtubeSearch ul {
+    background: white;
+    padding-top: 10px;
+    height: 295px;
+    overflow: auto;
+    margin-top: 15px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+#wellcomeFileSearch {
+    /*    height: 400px;*/
     overflow: auto;
     width: 300px;
+    background: rgba(0, 0, 0, .1);
+}
+
+#wellcomeFileSearch h2 {
+    background: white url(eyecandy/wellcome_logo.jpeg) no-repeat top right;
+    background-size: 20%;
+    height: 40px;
+    padding: 5px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 #localFileSearch {
     width: 300px;
+    min-height: 75px;
+    background: rgba(0, 0, 0, .1);
+}
+
+#localFileSearch h2 {
+    background: white url(eyecandy/laptop.jpg) no-repeat top right;
+    background-size: 8%;
+    height: 40px;
+    padding: 5px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .panel {
-    border: 1px solid #ccc;
+    /*    border: 1px solid #999;*/
     border-radius: 5px;
     padding: 10px;
     margin: 10px;
+    box-shadow: 1px 1px 1px black;
+}
+
+.panel h2 {
+    background: white;
+    color: #222;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 5px;
 }
 
 
@@ -365,3 +485,12 @@ section.page {
 #projectResourcesPanel {
     float: left;
 }*/
+
+
+/**************GENERAL FORM ELEMENT STYLES***************************/
+
+input[type=text],
+textarea {
+    border: 1px solid #ccc;
+    padding: 5px;
+}

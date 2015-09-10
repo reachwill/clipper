@@ -6,7 +6,8 @@ var View = {
         View.hideThing($('#annotationEditor'), 'sudden');
         View.controller.changeView('collectionsSection', $('a[data-view=collectionsSection]'));
         View.clearFields($('#clipPropsEditor'));
-        $('.tabContent').hide();
+        $('.tabContent,#createClipLnk').not('#createAnnosPane').hide();
+        $('#createAnnosLnk').addClass('active');
     },
 
     shrinkHeader: function () {
@@ -40,24 +41,36 @@ var View = {
         }
     },
 
+    setAnnoDefaultTime: function () {
+        if ($('#annoStartTime').val() == '') {
+            $('#annoStartTime').val(ProjectManager.activeClip.start);
+        }
+    },
+
     populateFields: function () {
         var activeClip = ProjectManager.activeClip;
         $('#clipTitleTxt').val(activeClip.title);
         $('#clipDescTxt').val(activeClip.description);
-        View.populateAnnoFields();
-    },
-
-    populateAnnoFields: function () {
-        var activeClip = ProjectManager.activeClip;
-        $('.annosBelongTo').text(activeClip.title);
+        View.updateAnnoPane();
     },
 
     clearFields: function (container) {
         container.find('input,textarea').val('');
     },
 
+    updateAnnoPane: function () {
+        var activeClip = ProjectManager.activeClip;
+        $('.annosBelongTo').text(activeClip.title);
+        View.updateClipAnnoList();
+
+    },
+
+    updateAnnoStartField: function (time) {
+        $('#annoStartTime').val(Utilities.secsToHMS(ClipperPlayer.activePlayer.currentTime()));
+    },
+
     updateTimerDisplays: function () {
-        $('.annotationTimeDisplay').text(ClipperPlayer.activePlayer.currentTime());
+        $('.annotationTimeDisplay').text(Utilities.secsToHMS(ClipperPlayer.activePlayer.currentTime()));
     },
 
     //called from any location in the application when an element is to be enabled for user interaction.
@@ -96,6 +109,7 @@ var View = {
         link.attr('data-thumbnail', 'css/icons/1441652014_film_clip_movie_timestamp.svg');
         link.attr('data-videoid', fileURL);
         link.attr('data-sourcetype', 'blob');
+        link.text('Add to Project');
 
     },
 
@@ -130,6 +144,35 @@ var View = {
         var output = template(arrayToRender); //generate the actual HTML to be displayed
         $(".clipsPane").html(output); //display the HTML
     },
+
+    //called when a clip is added to a cliplist
+    updateClipAnnoList: function () {
+
+        var arrayToRender = {
+            items: []
+        };
+
+
+        var numItems = ProjectManager.activeClip.annotations.length;
+        for (var i = 0; i < numItems; i++) {
+            var item = ProjectManager.activeClip.annotations[i];
+            arrayToRender.items.push({
+                text: item.text,
+                id: item.id,
+                start: item.start,
+                end: item.end,
+                parentclipid: item.parentClipId
+            });
+        }
+
+        // render results using Handlebars templating API
+        var source = document.getElementById("savedAnnosTemplate").innerHTML; //the template structure to be used by handlebars <script id="projectResourcesTemplate"...
+
+        var template = Handlebars.compile(source); //compile the template structure
+        var output = template(arrayToRender); //generate the actual HTML to be displayed
+        $("#savedAnnosPane").html(output); //display the HTML
+    },
+
 
 
 
